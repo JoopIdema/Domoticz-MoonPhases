@@ -5,7 +5,7 @@ Note App_id and App_code
 
 Upload Custom Images
 
-Create 5 Dummy Sensors
+Create 5 Dummy Sensors:
 
 Moonrise, Text
 
@@ -17,7 +17,7 @@ MoonPercentage, Percentage
 
 MoonPhase, Custom (X-axis use Space)
 
-Edit script variables
+Edit script variables:
 
 App_id
 
