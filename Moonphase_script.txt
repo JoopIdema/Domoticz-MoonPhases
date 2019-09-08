@@ -1,0 +1,190 @@
+--Domoticz Moonphases script
+--Version 1.02
+--Date 8-9-2019
+--More info https://github.com/JoopIdema/Domoticz-MoonPhases
+
+return {
+logging = {
+level = domoticz.LOG_INFO,
+marker = "Moon"
+   },
+	on = {
+		timer = { 'every hour' },
+		devices = { 'dummyDZEvents' },
+		httpResponses = { 'moontrigger' }
+	},
+	execute = function(domoticz, item)
+	  --Variables
+        local app_id = 'xxxxxxxxxxxxxxx'
+        local app_code = 'xxxxxxxxxxxxxxx'
+        local town = 'Assen'
+        local languange = 'DUT' --Dutch = DUT, English = ENG
+        local moonPhaseIcon = 100
+        local moonPhaseIDX = 8
+        local domo_ip = '192.168.0.153'
+        local domo_port = '8080'
+        local hours24 = 'no' --yes or no
+        
+		if (item.isTimer) or (item.isDevice) then
+			domoticz.openURL({
+			    url = 'https://weather.api.here.com/weather/1.0/report.json?app_id='.. app_id.. '&app_code=' .. app_code .. '&product=forecast_astronomy&name=' .. town,
+				method = 'GET',
+				callback = 'moontrigger',
+			})
+        end
+    
+	    local function deepdump( tbl )
+            local checklist = {}
+            
+            local function innerdump( tbl, indent )
+                checklist[ tostring(tbl) ] = true
+                for k,v in pairs(tbl) do
+                        print (indent .. tostring(k) .. " ===> value: ".. tostring(v)  )
+                    if (type(v) == "table" and not checklist[ tostring(v) ]) then 
+                        innerdump(v,indent .. tostring(k) .. ".") 
+                    end
+                end
+            end
+            checklist[ tostring(tbl) ] = true
+            innerdump( tbl, "Key: " )
+         end
+         
+        local function twh(tijd) -- zet tijd om naar 24-uurs notatie
+            if string.len(tijd) == 6 then
+                tijd = "0" .. tijd
+            end
+            local AMPM = string.sub((tijd),6)
+            if (AMPM) == "AM" then
+                tijd = string.gsub(tijd,"AM","")
+                local uur = string.sub((tijd),1,2)
+                if uur == "12" then 
+                    uur = "00"
+                    local minuut = string.sub((tijd),4,5)
+                    tijd = uur .. ":" .. minuut
+                end
+            end
+            if (AMPM) == "PM" then
+                local uur = string.sub((tijd),1,2) + 12
+                if uur == 24 then 
+                    uur = 12
+                end
+                local minuut = string.sub((tijd),4,5)
+                tijd = uur .. ":" .. minuut
+            end
+            return tijd
+        end
+        
+        local function maanfase(faseEN) -- Zet maanfase ENG omschrijving om naar maanfasenummer en vertaald naar DUT
+            faseEN = string.lower(faseEN)
+            --print (faseEN)
+            if faseEN == "new moon" then 
+                maanfase = 1
+                moonPhaseIcon = moonPhaseIcon + maanfase
+                if languange == "DUT" then
+                    moonPhaseDesc = "Nieuwe maan"
+                end
+            end
+            if faseEN == "waxing crescent" then 
+                maanfase = 2
+                moonPhaseIcon = moonPhaseIcon + maanfase
+                if languange == "DUT" then
+                    moonPhaseDesc = "Wassende halve maan"
+                end
+            end
+            if faseEN == "first quarter" then 
+                maanfase = 3
+                moonPhaseIcon = moonPhaseIcon + maanfase
+                if languange == "DUT" then
+                    moonPhaseDesc = "Eerste kwartier"
+                end
+            end
+            if faseEN == "waxing gibbous" then 
+                maanfase = 4
+                moonPhaseIcon = moonPhaseIcon + maanfase
+                if languange == "DUT" then
+                    moonPhaseDesc = "Wassende maan"
+                end
+            end
+            if faseEN == "full moon" then 
+                maanfase = 5
+                moonPhaseIcon = moonPhaseIcon + maanfase
+                if languange == "DUT" then
+                    moonPhaseDesc = "Volle maan"
+                end
+            end
+            if faseEN == "waning gibbous" then 
+                maanfase = 6
+                moonPhaseIcon = moonPhaseIcon + maanfase
+                if languange == "DUT" then
+                    moonPhaseDesc = "Afnemende maan"
+                end
+            end
+            if faseEN == "last quarter" then 
+                maanfase = 7
+                moonPhaseIcon = moonPhaseIcon + maanfase
+                if languange == "DUT" then
+                    moonPhaseDesc = "Laatste kwartier"
+                end
+            end
+            if faseEN == "waning crescent" then 
+                maanfase = 8
+                moonPhaseIcon = moonPhaseIcon + maanfase
+                if languange == "DUT" then
+                    moonPhaseDesc = "Afnemende halve maan"
+                end
+            end
+            return maanfase
+        end
+        
+		if (item.isHTTPResponse) then
+
+			if (item.statusCode == 200) then
+				if (item.isJSON) then
+				    
+                    local myTable = domoticz.utils.fromJSON(item.data)
+                    --deepdump(myTable) -- dump lua tabel om de inhoud te bekijken
+                    local rt = myTable.astronomy
+                    
+                    if (hours24 == "yes") then
+                        moonset = twh(rt.astronomy[1].moonset)
+                        moonrise = twh(rt.astronomy[1].moonrise)
+                    else
+                        moonset = rt.astronomy[1].moonset
+                        moonrise = rt.astronomy[1].moonrise
+                    end
+                    
+                    local moonPhaseRaw = rt.astronomy[1].moonPhase * 100
+                    local moonPhasePercentage = moonPhaseRaw
+                    if moonPhaseRaw < 0 then
+                        moonPhasePercentage = math.abs(moonPhaseRaw)
+                    end
+                    moonPhaseDesc = rt.astronomy[1].moonPhaseDesc
+                    local moonPhase = maanfase(moonPhaseDesc)
+                    
+                    domoticz.openURL({
+			    	url = 'http://'.. domo_ip ..':'.. domo_port ..'/json.htm?type=setused&idx='.. moonPhaseIDX ..'&name=MoonPhase&description=&switchtype=0&customimage='.. moonPhaseIcon .. '&devoptions=1;%20&used=true',
+			    	method = 'GET',
+			        })
+                    domoticz.devices('Moonset').updateText(moonset)
+                    domoticz.devices('Moonrise').updateText(moonrise)
+                    domoticz.devices('Moonpercentage').updatePercentage(moonPhasePercentage)
+                    domoticz.devices('MoonPhaseDesc').updateText(moonPhaseDesc)
+                    domoticz.devices('MoonPhase').updateCustomSensor(moonPhase)
+                    
+                    domoticz.log('moonset: ' .. moonset, domoticz.LOG_FORCE)
+                    domoticz.log('moonrise: ' .. moonrise, domoticz.LOG_FORCE)
+                    domoticz.log('moonPhasePercentage: ' .. moonPhasePercentage, domoticz.LOG_FORCE)
+                    domoticz.log('moonPhaseDesc: ' .. moonPhaseDesc, domoticz.LOG_FORCE)
+                    domoticz.log('moonPhase: ' .. moonPhase, domoticz.LOG_FORCE)
+                    domoticz.log('moonPhaseIcon: ' .. moonPhaseIcon, domoticz.LOG_FORCE)
+                end
+
+			else
+				domoticz.log('There was a problem handling the request', domoticz.LOG_ERROR)
+				domoticz.log(item, domoticz.LOG_ERROR)
+			end
+
+ 		end
+
+	end
+}
