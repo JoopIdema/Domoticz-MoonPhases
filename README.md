@@ -2,7 +2,7 @@
 ## Installation instructions:
 
 ### Create a Here Dev Account 
-Creat a freemium developer account via https://developer.here.com/ to get an appid and appcode.
+First step is to create a freemium developer account via https://developer.here.com/ to get an appid and appcode.
 Note your App_id and App_code
 
 ### Upload Custom Images
