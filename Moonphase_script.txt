@@ -10,7 +10,6 @@ marker = "Moon"
    },
 	on = {
 		timer = { 'every hour' },
-		devices = { 'dummyDZEvents' },
 		httpResponses = { 'moontrigger' }
 	},
 	execute = function(domoticz, item)
