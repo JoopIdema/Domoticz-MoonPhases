@@ -4,12 +4,12 @@ A dzVents script to show moonphase information in Domoticz.
 
 ### Create a Here Dev Account 
 First step is to create a freemium developer account via https://developer.here.com/ to get an appid and appcode.
-Note your App_id and App_code
+Note your App_id and App_code.
 
 ### Upload Custom Images
-Upload the zip files in de icon folder from 1 to 8 in Domoticz via Setup/More Options/Custom Icons. <br>
+Upload the zip files in the icon folder in order from 1 to 8 to Domoticz via Setup/More Options/Custom Icons.<br>
 If you have no custom icons than the value of the moonphaseicon variable in the script is 100 (default).<br>
-If you already have custom icons, count the number and add it with 100. So if you have 10 custom icons, then the value of the moonphaseicon variable becomes 110.
+If you already have custom icons, count the number and add it with 100. So if you already have 10 custom icons, then the value of the moonphaseicon variable becomes 110.
 
 ### Dummy sensors
 Create 5 Dummy sensors in Domoticz:
@@ -33,4 +33,4 @@ Edit the variables:<br>
 - moonPhaseIDX = idx number of the dummy sensor named <b>MoonPhase</b>
 - moonPhaseIcon = as mentionend above the start number of the custom moonphase icons.
 
-Save the script and check the log for any errors. By default the script runs every hour, for test you can change it to every minute.
+Save the script and check the log for any errors. By default the script runs every hour, for testing you can change it to every minute.
