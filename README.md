@@ -1,38 +1,31 @@
-# Domoticz-MoonPhases
-Create Here Dev Account
+# Domoticz-MoonPhases script
+## Installation instructions:
 
-Note App_id and App_code
+### Create a Here Dev Account 
+Creat a freemium developer account via https://developer.here.com/ to get an appid and appcode.
+Note your App_id and App_code
 
-Upload Custom Images
+### Upload Custom Images
+Upload the zip files in de icon folder from 1 to 8 in Domoticz via Setup/More Options/Custom Icons. <br>
+If you have no custom icons than the value of the moonphaseicon variable in the script is 100 (default).<br>
+If you already have custom icons, count the number and add it with 100. So if you have 10 custom icons, then the value of the moonphaseicon variable becomes 110.
 
-Create 5 Dummy Sensors:
+### Dummy sensors
+Create 5 Dummy sensors in Domoticz:
+- Moonrise, Text
+- Moonset, Text
+- MoonPhaseDesc, Text
+- MoonPercentage, Percentage
+- MoonPhase, Custom (X-axis use a space)
 
-Moonrise, Text
+### Edit script variables:
 
-Moonset, Text
-
-MoonPhaseDesc, Text
-
-MoonPercentage, Percentage
-
-MoonPhase, Custom (X-axis use Space)
-
-Edit script variables:
-
-App_id
-
-App_code
-
-town
-
-language
-
-domo_ip
-
-domo_port
-
-24hour = yes or no
-
-moonPhaseIDX
-
-moonPhaseIcon
+- App_id
+- App_code
+- town = the town where you live
+- language = DUT or ENG for Dutch or English
+- domo_ip= your domoticz ip-address
+- domo_port = your domoticz port number
+- 24hour = 24 hours notation fot moonset or moonrise time, yes or no.
+- moonPhaseIDX = idx number of the dummy sensor named <b>MoonPhase</b>
+- moonPhaseIcon = as mentionend above the start number of the custom moonphase icons.
