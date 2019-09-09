@@ -1,4 +1,5 @@
 # Domoticz-MoonPhases script
+A dzVents script to show moonphase information in Domoticz.
 ## Installation instructions:
 
 ### Create a Here Dev Account 
@@ -18,8 +19,10 @@ Create 5 Dummy sensors in Domoticz:
 - MoonPercentage, Percentage
 - MoonPhase, Custom (X-axis use a space)
 
-### Edit script variables:
-
+### Edit script variables
+Download the script and add it to Domoticz via Setup/More Options/Events. Click on the + and add a dzVent, Global data script.<br>
+Paste the contents of the moonphase_script.txt file into the window, overwriting what is already there.<br>
+Edit the variables:<br>
 - App_id
 - App_code
 - town = the town where you live
@@ -29,3 +32,5 @@ Create 5 Dummy sensors in Domoticz:
 - 24hour = 24 hours notation fot moonset or moonrise time, yes or no.
 - moonPhaseIDX = idx number of the dummy sensor named <b>MoonPhase</b>
 - moonPhaseIcon = as mentionend above the start number of the custom moonphase icons.
+
+Save the script and check the log for any errors. By default the script runs every hour, for test you can change it to every minute.
