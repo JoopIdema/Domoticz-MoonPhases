@@ -29,7 +29,7 @@ Edit the variables:<br>
 - language = DUT or ENG for Dutch or English
 - domo_ip= your domoticz ip-address
 - domo_port = your domoticz port number
-- 24hour = 24 hours notation fot moonset or moonrise time, yes or no.
+- 24hour = 24 hours notation for moonset or moonrise time, yes or no.
 - moonPhaseIDX = idx number of the dummy sensor named <b>MoonPhase</b>
 - moonPhaseIcon = as mentionend above the start number of the custom moonphase icons.
 
