@@ -8,7 +8,7 @@ Note your App_id and App_code.
 
 ### Upload Custom Images
 Upload the zip files in the icon folder in order from 1 to 8 to Domoticz via Setup/More Options/Custom Icons.<br>
-If you have no custom icons than the value of the moonphaseicon variable in the script is 100 (default).<br>
+If you have no custom icons than the value of the moonPhaseIcon variable in the script is 100 (default).<br>
 If you already have custom icons, count the number and add 100 to it. So if you already have 10 custom icons, then the value of the moonPhaseIcon variable becomes 110.
 
 ### Dummy sensors
