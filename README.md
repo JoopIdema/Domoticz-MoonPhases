@@ -20,7 +20,7 @@ Create 5 Dummy sensors in Domoticz:
 - MoonPhase, Custom (X-axis use a space)
 
 ### Edit script variables
-Download the script and add it to Domoticz via Setup/More Options/Events. Click on the + and add a dzVent, Global data script.<br>
+Download the script and add it to Domoticz via Setup/More Options/Events. Click on the <b>+</b> and add a dzVent, Global data script.<br>
 Paste the contents of the moonphase_script.txt file into the window, overwriting what is already there.<br>
 Edit the variables:<br>
 - App_id
