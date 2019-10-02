@@ -166,7 +166,7 @@ marker = "Moon"
 			        })
                     domoticz.devices('Moonset').updateText(moonset)
                     domoticz.devices('Moonrise').updateText(moonrise)
-                    domoticz.devices('Moonpercentage').updatePercentage(moonPhasePercentage)
+                    domoticz.devices('MoonPercentage').updatePercentage(moonPhasePercentage)
                     domoticz.devices('MoonPhaseDesc').updateText(moonPhaseDesc)
                     domoticz.devices('MoonPhase').updateCustomSensor(moonPhase)
                     
